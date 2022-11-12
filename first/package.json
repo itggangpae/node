@@ -1,0 +1,14 @@
+{
+  "name": "nodefirst",
+  "version": "1.0.0",
+  "description": "first sample",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "adam",
+  "license": "ISC"
+}
