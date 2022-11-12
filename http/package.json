@@ -1,0 +1,14 @@
+{
+  "name": "httpserver",
+  "version": "1.0.0",
+  "description": "http server",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "http"
+  ],
+  "author": "adam",
+  "license": "ISC"
+}
