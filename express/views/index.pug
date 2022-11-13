@@ -1,0 +1,26 @@
+doctype html
+html
+  head
+    title= title
+  body
+    block content
+
+block content
+  h1= title
+  p Welcome to #{title}
+
+#aespa 
+  ul 
+    each artist in  aespa
+      li= artist
+
+style. 
+  h1{
+      font-size: 24px;
+      color: red;
+  }
+
+script.
+  //const message = '#{title}'; 
+  //alert(message);
+  alert('#{title}')

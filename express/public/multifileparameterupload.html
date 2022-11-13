@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>하나의 파일 업로드</title>
+    </head>
+    <body>
+        <form id="form" method="post" enctype="multipart/form-data">
+            <input type="file" name="image" id="image1" />
+            <input type="file" name="image" id="image2" />
+            <input type="text" name="title" id="title" />
+            <button type="submit">업로드</button>
+          </form>
+          <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+          <script>
+            document.getElementById('form').addEventListener('submit', (e) => {
+              e.preventDefault();
+              const formData = new FormData();
+              var files = e.target.image.files;
+              formData.append('image1', e.target.image1.files[0])
+              formData.append('image2', e.target.image2.files[0])
+              formData.append('title', e.target.title.value)
+              axios.post('/multifileparameterupload', formData);
+            });
+          </script>          
+    </body>
+</html>

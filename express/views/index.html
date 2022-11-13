@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<h1>{{title}}</h1>
+<p>Welcome to {{title}}</p>
+<ul>
+	{% for item in aespa %}
+	<li> {{loop.index}} 번째 {{item}}</li>
+	{% endfor %}
+	
+	<p>--------------</p>
+	{% set fruit = 'orange' %}
+	
+	{% if fruit === 'apple' %}
+	<p> 사과 </p>
+	{% elif fruit === 'pear' %}
+	<p> 배 </p>
+	{% else %}
+	<p> 오렌지 </p>
+	{% endif %}
+	
+</ul>
+{% endblock %}
