@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>NODE_MariaDB</title>
+    <link rel='stylesheet' href="/css/common.css" />
+</head>
+
+<body>
+    <h1>MariaDB</h1>
+    <a href="#" id="allbtn">데이터 전체 가져오기</a>
+    <a href="#" id="listbtn">데이터 일부분 가져오기</a>
+    <a href="#" id="insertbtn">데이터 삽입</a>
+    <div id='content'></div>
+    <div id='updatearea'></div>
+    <div id='taskarea'></div>
+</body>
+
+<script>
+    let content = document.getElementById('content');
+    let updatearea = document.getElementById("updatearea");
+    let taskarea = document.getElementById("taskarea");
+
+
+    document.getElementById("insertbtn").addEventListener('click', (e) => {
+        content.innerHTML = '';
+        updatearea.innerHTML = '';
+        let html =
+            `
+        <div>
+            <p></p>
+            <form method="post" id="insertform" enctype="multipart/form-data">
+                아이템 이름<input type="text" name="itemname" id="itemname" /><br />
+                아이템 가격<input type="text" name="price" id="price" /><br />
+                설명<input type="text" name="description" id="description" /><br />
+                이미지<input type="file" name="pictureurl" id="pictureurl" /><br />
+                <input type="submit" value="삽입" />
+            </form>
+        </div>
+        `
+        taskarea.innerHTML = html;
+
+        let f = document.getElementById("insertform");
+        if (f != undefined) {
+            f.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const formData = new FormData(document.getElementById("insertform"));
+
+                let xhr = new XMLHttpRequest();
+                xhr.open("POST", "/item/insert", true);
+                xhr.send(formData);
+
+                xhr.addEventListener('load', (e) => {
+                    let data = JSON.parse(xhr.responseText);
+                    if (data.result == true) {
+                        document.getElementById("listbtn").click();
+                        updatearea.innerHTML = '';
+                        taskarea.innerHTML = '';
+                    } else {
+                        alert("삽입에 실패")
+                    }
+                });
+            });
+        }
+    });
+
+
+    const all = () => {
+        let request = new XMLHttpRequest();
+        request.open('GET', '/item/all');
+        request.send('');
+        request.addEventListener('load', function () {
+            let data = JSON.parse(request.responseText);
+            let display = "<div align='center' class='body'>";
+            display += "<h2>상품 목록 화면</h2>";
+            display += "<table border='1'>";
+            display += "<tr><td colspan='3' align='right'>전체 데이터 개수:" + data.count + "</td></tr>"
+            display += "<tr class='header'>"
+            display += "<th align='center' width='80'>상품ID</th>"
+            display += "<th align='center' width='320'>상품명</th>"
+            display += "<th align='center' width='100'>가격</th>"
+            display += "</tr>"
+
+            for (let idx in data.list) {
+                let item = data.list[idx];
+
+                display += "<tr class='record'>";
+                display += "<td align='center'>" + item.itemid + "</td>";
+                display += "<td align='left'>" + item.itemname + "</td>";
+                display += "<td align='right'>" + item.price + "원</td>";
+                display += "</tr>"
+            }
+
+            display += "</table>";
+            display += "</div>"
+
+            content.innerHTML = display;
+            updatearea.innerHTML = "";
+            taskarea.innerHTML = "";
+        });
+    }
+    document.getElementById('allbtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        all();
+
+    });
+
+    let pageno = 1;
+    let count = 5;
+
+    document.getElementById('listbtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        pageno = 1;
+        count = 5;
+
+        let request;
+        request = new XMLHttpRequest();
+        request.open('GET', '/item/list?' + 'pageno=' + pageno + '&count=' + count);
+        request.send('');
+        updatearea.innerHTML = "";
+        request.addEventListener('load', () => {
+            let data = JSON.parse(request.responseText);
+            let display = "<div align='center' class='body'>";
+            display += "<h2>상품 목록 화면</h2>";
+            display += "<table border='1' id='tbldata'>";
+            display += "<tr><td colspan='3' align='right'>전체 데이터 개수:" + data.count + "</td></tr>"
+            display += "<tr class='header'>"
+            display += "<th align='center' width='80'>상품ID</th>"
+            display += "<th align='center' width='320'>상품명</th>"
+            display += "<th align='center' width='100'>가격</th>"
+            display += "</tr>"
+
+            for (let idx in data.list) {
+                let item = data.list[idx];
+
+                display += "<tr class='record'>";
+                display += "<td align='center'>" + item.itemid + "</td>";
+                display += "<td align='left'><a href='#' id='item" + item.itemid + "'>" + item
+                    .itemname + "</a></td>";
+                display += "<td align='right'>" + item.price + "원</td>";
+                display += "</tr>"
+            }
+            display += "</div>"
+
+            content.innerHTML = display;
+
+            display = "";
+            if ((pageno - 1) * count < data.count) {
+                display += "<table align='center' width='500' id='tblbtn'>";
+                display += "<tr id='tblbtn'>";
+                display += "<td align='center' colspan='3'><span id='addbtn'>더보기</span></td>";
+                display += "</tr></table>"
+            }
+            content.innerHTML += display;
+            let addbtn = document.getElementById('addbtn');
+            if (addbtn != undefined) {
+                addbtn.addEventListener('click', (e) => {
+                    pageno = pageno + 1;
+                    let request;
+                    request = new XMLHttpRequest();
+                    request.open('GET', '/item/list?' + 'pageno=' + pageno + '&count=' + count);
+                    request.send('');
+
+                    if ((pageno) * count >= data.count) {
+                        pageno = pageno - 1;
+                        document.getElementById("tblbtn").remove();
+                    }
+
+
+                    request.addEventListener('load', (e) => {
+                        let data = JSON.parse(request.responseText);
+                        let display = "";
+
+                        const table = document.getElementById('tbldata');
+
+                        for (let idx in data.list) {
+                            let item = data.list[idx];
+
+                            display += "<tr class='record'>";
+                            display += "<td align='center'>" + item.itemid + "</td>";
+                            display += "<td align='left'><a href='#' id='item" + item
+                                .itemid + "'>" + item.itemname + "</a></td>";
+                            display += "<td align='right'>" + item.price + "원</td>";
+                            display += "</tr>"
+                        }
+                        table.innerHTML += display;
+                    });
+                });
+            };
+        });
+    });
+
+    document.getElementById('content').addEventListener('click', (e) => {
+        if (e.target.id.startsWith("item")) {
+            let itemid = e.target.id.substring(4).trim();
+            let request;
+            request = new XMLHttpRequest();
+            request.open('GET', '/item/detail?' + 'itemid=' + itemid);
+            request.send('');
+
+            request.addEventListener('load', () => {
+                let data = JSON.parse(request.responseText);
+                let display = "";
+                display += "<div align='center' class='body'>";
+                display += "<h2>상품 상세 화면</h2>";
+
+                if (data.result === true) {
+                    let item = data.item;
+                    display += "<table>";
+                    display += "<tr><td><a href='/img/" + item.pictureurl + "'>" + "<img src='/img/" +
+                        item.pictureurl + "'></a></td>";
+                    display += "<td align='center'><table><tr height='50'><td width='80'>상품명</td>";
+                    display += "<td width='160'>" + item.itemname + "</td>";
+                    display += "</tr><tr height='50'><td width='80'>가격</td>";
+                    display += "<td width='160'>" + item.price + "원</td></tr>";
+                    display += "<tr height='50'><td width='80'>비고</td>";
+                    display += "<td width='160'>" + item.description + "</td></tr>";
+                    display += "<tr><td colspan='2' align='center' width='240'>";
+                    display += "<a href='#' id='mainbtn'>■ 목록으로돌아가기</a></td></tr>";
+                    display += "<tr><td colspan='2' align='center' width='240'>";
+                    display += "<a href='#' id='deletebtn'>■ 데이터 삭제</a>";
+                    display += "<a href='#' id='updatebtn'>■ 데이터 수정</a></td></tr>";
+                    display += "</table></td></tr>";
+                    display += "</table>"
+                } else {
+                    display += "<p>데이터가 존재하지 않습니다.</p>";
+                }
+
+                content.innerHTML = display;
+                updatearea.innerHTML = "";
+
+                let mainbtn = document.getElementById('mainbtn');
+                if (mainbtn != undefined) {
+                    mainbtn.addEventListener('click', (e) => {
+                        document.getElementById('listbtn').click();
+                    })
+                }
+                let updatebtn = document.getElementById('updatebtn');
+                if (updatebtn != undefined) {
+                    updatebtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation()
+                        request = new XMLHttpRequest();
+                        request.open('GET', '/item/update');
+                        request.send('');
+
+                        request.addEventListener('load', () => {
+                            content.innerHTML = "";
+                            updatearea.innerHTML = request.responseText;
+                            let item = data.item;
+
+                            document.getElementById("itemid").value = item.itemid;
+                            document.getElementById("itemid").readOnly = true;
+                            document.getElementById("itemname").value = item.itemname;
+                            document.getElementById("price").value = item.price;
+                            document.getElementById("description").value = item
+                                .description;
+
+                            document.getElementById("oldpictureurl").value = item
+                                .pictureurl;
+                            document.getElementById("picture").src = "/img/" + item
+                                .pictureurl;
+                            let f = document.getElementById("updateform");
+                            if (f != undefined) {
+                                f.addEventListener('submit', (e) => {
+                                    e.preventDefault();
+                                    const formData = new FormData(document
+                                        .getElementById("updateform"));
+
+                                    let xhr = new XMLHttpRequest();
+                                    xhr.open("POST", "/item/update", true);
+                                    xhr.send(formData);
+
+                                    xhr.addEventListener('load', (e) => {
+                                        let data = JSON.parse(xhr
+                                            .responseText);
+                                        if (data.result == true) {
+                                            document.getElementById(
+                                                "listbtn").click();
+                                            updatearea.innerHTML = '';
+                                        } else {
+                                            alert("수정에 실패")
+                                        }
+                                    });
+                                })
+                            }
+
+                        });
+                    });
+                }
+                let deletebtn = document.getElementById('deletebtn');
+                if (deletebtn != undefined) {
+                    deletebtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        request = new XMLHttpRequest();
+                        request.open('POST', '/item/delete', true);
+                        let params = 'itemid=' + data.item.itemid;
+                        request.setRequestHeader('Content-type',
+                            'application/x-www-form-urlencoded');
+                        request.send(params);
+
+                        request.addEventListener('load', () => {
+                            let data = JSON.parse(request.responseText);
+                            if (data.result == true) {
+                                document.getElementById("listbtn").click();
+                                updatearea.innerHTML = '';
+                                alert("삭제 성공");
+                            } else {
+                                alert("삭제 실패");
+                            }
+                        });
+                    })
+                }
+            });
+        }
+    })
+</script>
+
+</html>

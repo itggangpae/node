@@ -14,8 +14,9 @@
               e.preventDefault();
               const formData = new FormData();
               var files = e.target.image.files;
+              
               for(idx=0; idx < files.length; idx++){
-                  formData.append('image', e.target.image.files[idx])
+                  formData.append('image', document.getElementById("image").files[idx])
               }
               formData.append('title', e.target.title.value)
 

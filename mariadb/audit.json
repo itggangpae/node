@@ -1,0 +1,31 @@
+{
+    "keepSettings": {
+        "type": 2,
+        "amount": 10
+    },
+    "auditFilename": "audit.json",
+    "hashType": "md5",
+    "extension": "",
+    "files": [
+        {
+            "date": 1668762517442,
+            "name": "/Users/adam/Documents/lecture/source/Web/node/mariadb/log/access-20221118.log",
+            "hash": "c4c51fa8005b4384892b0b710b7d9479"
+        },
+        {
+            "date": 1668817245206,
+            "name": "/Users/adam/Documents/lecture/source/Web/node/mariadb/log/access-20221119.log",
+            "hash": "72e7038bcc000245641538dee6977862"
+        },
+        {
+            "date": 1668901088561,
+            "name": "/Users/adam/Documents/lecture/source/Web/node/mariadb/log/access-20221120.log",
+            "hash": "99e7691b2a412b80ec45017540a3392f"
+        },
+        {
+            "date": 1668982092358,
+            "name": "/Users/adam/Documents/lecture/source/Web/node/mariadb/log/access-20221121.log",
+            "hash": "0931037c42075c1fd6b82fe4f2bc597e"
+        }
+    ]
+}
