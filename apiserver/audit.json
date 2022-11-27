@@ -1,0 +1,16 @@
+{
+    "keepSettings": {
+        "type": 2,
+        "amount": 10
+    },
+    "auditFilename": "audit.json",
+    "hashType": "md5",
+    "extension": "",
+    "files": [
+        {
+            "date": 1669510044914,
+            "name": "/Users/adam/Documents/lecture/source/Web/node/apiserver/log/access-20221127.log",
+            "hash": "d828d8f4fc5bc7a66c914b13cbee9b98"
+        }
+    ]
+}

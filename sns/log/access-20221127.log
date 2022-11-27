@@ -62,3 +62,8 @@
 ::1 - - [26/Nov/2022:23:53:41 +0000] "GET /auth/kakao/callback?code=0B1T42zUPF9hG0CQx9GOo0lkF4aOSrmWa_15sb6XXR0OvrCKOg8Dmv6qEvy0VZgjvQnRFgo9dRkAAAGEtlxtsQ HTTP/1.1" 302 46 "http://localhost:9000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
 ::1 - - [26/Nov/2022:23:53:41 +0000] "GET / HTTP/1.1" 200 - "http://localhost:9000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
 ::1 - - [26/Nov/2022:23:53:42 +0000] "GET /profile HTTP/1.1" 200 - "http://localhost:9000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
+::1 - - [27/Nov/2022:01:27:31 +0000] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
+::1 - - [27/Nov/2022:01:27:37 +0000] "POST /auth/login HTTP/1.1" 302 46 "http://localhost:9000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
+::1 - - [27/Nov/2022:01:27:37 +0000] "GET / HTTP/1.1" 200 - "http://localhost:9000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
+::1 - - [27/Nov/2022:01:27:50 +0000] "POST /post HTTP/1.1" 302 46 "http://localhost:9000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
+::1 - - [27/Nov/2022:01:27:50 +0000] "GET / HTTP/1.1" 200 - "http://localhost:9000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"

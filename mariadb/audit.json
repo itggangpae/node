@@ -26,6 +26,11 @@
             "date": 1668982092358,
             "name": "/Users/adam/Documents/lecture/source/Web/node/mariadb/log/access-20221121.log",
             "hash": "0931037c42075c1fd6b82fe4f2bc597e"
+        },
+        {
+            "date": 1669515973027,
+            "name": "/Users/adam/Documents/lecture/source/Web/node/mariadb/log/access-20221127.log",
+            "hash": "d223001f6fba3eac5eb5bf4cfaebee16"
         }
     ]
 }
