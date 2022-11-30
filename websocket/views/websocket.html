@@ -45,6 +45,8 @@
 </html>
 -->
 
+<!--
+
 <!DOCTYPE html>
 <html>
 
@@ -61,7 +63,7 @@
     // HTML 문서가 모두 준비되면
     $(document).ready(function () {
       // 변수를 선언합니다.
-      var socket = io.connect('http://192.168.0.163:8001');
+      var socket = io.connect('http://localhost:8001');
       // 이벤트를 연결합니다.
       socket.on('message', function (data) {
         // 추가할 문자열을 만듭니다.
@@ -110,6 +112,42 @@
       </ul>
     </div>
   </div>
+</body>
+
+</html>
+-->
+
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>전자칠판</title>
+  <script src="js/board.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="stylesheet/style.css">
+</head>
+
+<body>
+  <canvas id='cv' width='860px;' height='645px;'></canvas>
+  <div class="menu">
+    <button id="clear">clear</button>
+    <fieldset>
+			<legend>색상변경</legend>
+			<select id='pen_color'>
+			</select>
+		</fieldset>
+		<fieldset>
+			<legend>펜 두께</legend>
+			<select id='pen_width'>
+			</select>
+		</fieldset>
+		<fieldset id='pen_shape'>
+			<legend>펜 모양</legend>
+		</fieldset>
+
+  </div>
+
 </body>
 
 </html>

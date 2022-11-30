@@ -11,6 +11,7 @@ const sequelize = new Sequelize(
 );
 
 db.sequelize = sequelize;
+
 db.User = User;
 db.Post = Post;
 db.Hashtag = Hashtag;

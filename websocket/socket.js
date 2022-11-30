@@ -58,5 +58,11 @@ module.exports = (server) => {
         socket.interval = setInterval(() => { // 3초마다 클라이언트로 메시지 전송
             socket.emit('news', '안녕하세요 Socket.IO');
         }, 3000);
+
+        socket.on('linesend', (data) => {
+            console.log(data);
+            socket.broadcast.emit('linesend_toclient',data);
+        });
+        
     });
 };
