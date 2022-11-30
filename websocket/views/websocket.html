@@ -1,0 +1,115 @@
+<!--
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>웹 소켓</title>
+</head>
+<body>
+<div>F12를 눌러 console 탭과 network 탭을 확인하세요.</div>
+<script>
+  const webSocket = new WebSocket("ws://localhost:8001");
+  webSocket.onopen = function () {
+    console.log('서버와 웹소켓 연결 성공!');
+  };
+  webSocket.onmessage = function (event) {
+    console.log(event.data);
+    webSocket.send('클라이언트에서 서버로 답장을 보냅니다');
+  };
+</script>
+</body>
+</html>
+-->
+
+<!--
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>웹 소켓 - SocketIO 이용</title>
+</head>
+<body>
+<div>F12를 눌러 console 탭과 network 탭을 확인하세요.</div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io.connect('http://localhost:8001', {
+    path: '/socket.io',
+    transports: ['websocket'],
+  });
+  socket.on('news', function (data) {
+    console.log(data);
+    socket.emit('reply', 'Hello Node.JS');
+  });
+</script>
+</body>
+</html>
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Mobile Chat</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+  <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+  <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    // HTML 문서가 모두 준비되면
+    $(document).ready(function () {
+      // 변수를 선언합니다.
+      var socket = io.connect('http://192.168.0.163:8001');
+      // 이벤트를 연결합니다.
+      socket.on('message', function (data) {
+        // 추가할 문자열을 만듭니다.
+        var output = '';
+        output += '<li>';
+        output += ' <h3>' + data.name + '</h3>';
+        output += ' <p>' + data.message + '</p>';
+        output += ' <p>' + data.date + '</p>';
+        output += '</li>';
+        // 문서 객체를 추가합니다.
+        $(output).prependTo('#content');
+        $('#content').listview('refresh');
+      });
+            // 버튼을 클릭할 때
+            $('button').click(function () {
+        socket.emit('message', {
+          name: $('#name').val(),
+          message: $('#message').val(),
+          date: new Date().toUTCString()
+        });
+        $('#message').val('')
+      });
+    });
+  </script>
+</head>
+<body>
+  <div data-role="page">
+    <div data-role="header">
+      <h1>Socket.io Chat</h1>
+    </div>
+    <div data-role="content">
+      <h3>Nick Name</h3>
+      <input id="name" />
+      <a data-role="button" href="#chatpage">Start Chat</a>
+    </div>
+  </div>
+  <div data-role="page" id="chatpage">
+    <div data-role="header">
+      <h1>Socket.io Chat</h1>
+    </div>
+    <div data-role="content">
+      <input id="message" />
+      <button>전송</button>
+      <ul id="content" data-role="listview" data-inset="true">
+
+      </ul>
+    </div>
+  </div>
+</body>
+
+</html>

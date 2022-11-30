@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Example WebSocket</title>
+</head>
+<body>
+	Status:
+	<span id="status"></span>
+	<br />
+	<br /> Messages:
+	<ul id="messages"></ul>
+</body>
+
+<script type="text/javascript">
+	if ('WebSocket' in window) {
+		var status = document.getElementById('status');
+		var messages = document.getElementById('messages');
+
+		//다른 네트워크에서 접속을 하고자 하는 경우에는 127.0.0.1 대신에 실제 IP로 변경 
+		var ws = new WebSocket('ws://127.0.0.1:8000', 'example-echo');
+	
+	    //웹 소켓에 접속했을 때 이벤트 처리
+		ws.addEventListener("open", (e) => {
+			status.innerHTML = 'connected'
+			for (var i = 0; i < 10; i++) {
+				ws.send('Hello ' + i);
+			}
+		});
+        //서버에서 메시지가 온 경우 이벤트 처리  
+		ws.addEventListener("message", (e) => {
+			messages.innerHTML += '<li>Received message: ' + e.data + '</li>';
+		});
+        //웹 소켓 연결이 해제 된 경우 이벤트 처리 
+		ws.addEventListener("close", (e) => {
+			status.innerHTML = 'closed'
+		});
+	} else
+		status.innerHTML = 'websocket not supported'
+</script>
+</html>
